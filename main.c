@@ -3,11 +3,17 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct options{
     int inputtype;
     int mapthreads;
     int reducethreads;
+};
+struct list_node{
+  char* key;
+  int value;
+  struct list_node *next;
 };
 /*
 void mapreducer();
@@ -33,12 +39,48 @@ void mapreducer(FILE *filepointer, struct options *mapredopt){
     printf("%i lines\n", lastmapsize);
     printf("%i lines\n", mapredopt->mapthreads);
 }
-
-void mapper(string key,string value){
+struct list_node* mapper(char* key,FILE *fp){
     /*
      process which translates arbitrarily divided input up into key­value pairs (an
      example is reading a file chunk and generating word­count for that file chunk)
      */
+    /* Create root node */
+    struct list_node* root = (struct list_node*) malloc(sizeof(struct list_node));
+    struct list_node* tmp = root;
+    int i=0;
+    char c;
+    char buffer[64];
+    while(1)
+    {
+        if((c=fgetc(fp))==EOF)
+        {
+            tmp->value=1;
+            tmp->key=malloc(strlen(buffer));
+            memcpy(tmp->key,&buffer,strlen(buffer));
+            memset(buffer, 0, sizeof(buffer));
+            break;
+        }
+        if(isalpha(c))
+        {
+            buffer[i]=tolower(c);
+            i++;
+        }
+        else 
+        {
+            if(i>0)
+            {
+                tmp->value=1;
+                tmp->key=malloc(strlen(buffer));
+                memcpy(tmp->key,&buffer,strlen(buffer));
+                tmp->next=(struct list_node*) malloc(sizeof(struct list_node));
+                tmp=tmp->next;
+                i=0;
+                memset(buffer, 0, sizeof(buffer));
+            }
+        }
+    }
+    return root;
+
 }
 
 void shuffle(){
@@ -55,73 +97,9 @@ void reducer(){
      */
 }
 int main(int argc, const char * argv[]){
-    /*
-     extern char *optarg;
-     extern int optind;
-     int c, err = 0;
-     int aflag=0, iflag=0, mflag=0, rflag=0;
-     char *aname, *iname, *mname, *rname;
-     static char usage[] = "usage: %s -a [wordcount, sort] -i [procs, threads] -m num_maps -r num_reduces infile outfile\n";
-     
-     while ((c = getopt(argc, argv, "a:i:m:r:")) != -1)
-     switch (c) {
-     case 'a':
-     aflag = 1;
-     aname = optarg;
-     break;
-     case 'i':
-     iflag = 1;
-     iname = optarg;
-     break;
-     case 'm':
-     mflag = 1;
-     mname = atoi(optarg);
-     break;
-     case 'r':
-     rflag = 1;
-     rname = atoi(optarg);
-     break;
-     case '?':
-     err = 1;
-     break;
-     }
-     
-     if (aflag == 0||iflag == 0||mflag == 0||rflag == 0) {
-     fprintf(stderr, "%s: missing option\n", argv[0]);
-     fprintf(stderr, usage, argv[0]);
-     exit(1);
-     } else if ((optind+2) > argc) {
-     printf("optind = %d, argc=%d\n", optind, argc);
-     fprintf(stderr, "%s: missing input/output files\n", argv[0]);
-     fprintf(stderr, usage, argv[0]);
-     exit(1);
-     } else if (err) {
-     fprintf(stderr, usage, argv[0]);
-     exit(1);
-     } else if ((strncmp(aname, "sort", strlen(aname)) != 0 )&& (strncmp(aname, "wordcount", strlen(aname)) != 0)){
-     fprintf(stderr, usage, argv[0]);
-     exit(1);
-     } else if ((strncmp(iname, "procs", strlen(iname)) != 0 )&& (strncmp(iname, "threads", strlen(iname)) != 0)){
-     fprintf(stderr, usage, argv[0]);
-     exit(1);
-     }   else if (mname == 0 || rname == 0 ){
-     fprintf(stderr, usage, argv[0]);
-     exit(1);
-     }
-     if (optind < argc)
-     for (; optind < argc; optind++)
-     printf("argument: \"%s\"\n", argv[optind]);
-     else {
-     printf("no arguments left to process\n");
-     }
-     */
-    FILE *filepointer;
-    filepointer = fopen("example.txt","r");
-    struct options mapredopt;
-    mapredopt.inputtype = 0;
-    mapredopt.mapthreads = 1;
-    mapredopt.reducethreads = 1;
-    mapreducer(filepointer, &mapredopt);
-    fclose(filepointer);
-   	exit(0);
+    FILE *fp;
+    fp=fopen("example.txt","r");
+    struct list_node* root =mapper("test",fp);
+    printf("%s\n",root->key);
+    return 0;
 }
