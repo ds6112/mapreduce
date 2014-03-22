@@ -1,7 +1,7 @@
-CC = g++
+CC = gcc
 all:	mapred
 mapred:
-	$(CC) -o mapred mapred.cpp
+	$(CC) -o mapred main.c
 
 clean:
 	rm -f *~ *.o mapred
