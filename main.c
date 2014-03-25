@@ -52,6 +52,7 @@ int main(int argc, const char * argv[]){
     struct options arg_opt;
     arg_opt.map_t=n;
     fp=fopen("example.txt","r");
+    
     mapreduce(fp,arg_opt);
  
 
