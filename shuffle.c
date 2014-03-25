@@ -13,6 +13,7 @@ void* shuffle_i(void *tn){
         tmp_int=(struct sort_node*) malloc(sizeof(struct sort_node));
         tmp_int->value = atoi(tmp->key);
         tmp_int->hash = tmp->value;
+        tmp_int->next = NULL;
         if (root_int != NULL)
         {   
             current=(struct sort_node*) malloc(sizeof(struct sort_node));
@@ -49,7 +50,7 @@ void* shuffle_i(void *tn){
         {
             root_int = tmp_int;
         }
-        
+        tmp=tmp->next;
     }
     
 }
