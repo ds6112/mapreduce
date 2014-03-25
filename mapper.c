@@ -28,7 +28,7 @@ void* mapper_t(void *tn)
             {
                 break;
             }
-            tmp->count=1;
+            tmp->value=1;
             tmp->key=malloc(strlen(word_buffer));
             memcpy(tmp->key,&word_buffer,strlen(word_buffer));
             tmp->next=(struct list_node*) malloc(sizeof(struct list_node));
@@ -56,7 +56,7 @@ void* mapper_t(void *tn)
                 {
                      break;
                 }
-                tmp->count=1;
+                tmp->value=1;
                 tmp->key=malloc(strlen(word_buffer));
                 memcpy(tmp->key,&word_buffer,strlen(word_buffer));
                 memset(word_buffer, 0, sizeof(word_buffer));
@@ -82,7 +82,7 @@ struct list_node* mapper_p(char* key,FILE *fp){
     {
         if((c=fgetc(fp))==EOF)
         {
-            tmp->count=1;
+            tmp->value=1;
             tmp->key=malloc(strlen(buffer));
             memcpy(tmp->key,&buffer,strlen(buffer));
             memset(buffer, 0, sizeof(buffer));
@@ -97,7 +97,7 @@ struct list_node* mapper_p(char* key,FILE *fp){
         {
             if(i>0)
             {
-                tmp->count=1;
+                tmp->value=1;
                 tmp->key=malloc(strlen(buffer));
                 memcpy(tmp->key,&buffer,strlen(buffer));
                 tmp->next=(struct list_node*) malloc(sizeof(struct list_node));

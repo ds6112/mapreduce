@@ -12,9 +12,7 @@ FILE *fp;
 struct list_node** temp;
 struct list_node{
   char* key;
-  int count;
   int value;
-  int hash;
   struct list_node *next;
 };
 void* mapper_t(void *node);
