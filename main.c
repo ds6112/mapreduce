@@ -1,10 +1,14 @@
 
 #include <stdio.h>
+#include <stdint.h>
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "mapper_wc.h"
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+FILE *fp;
+struct list_node** temp;
 struct options{
     int inputtype;
     int mapthreads;
@@ -39,49 +43,7 @@ void mapreducer(FILE *filepointer, struct options *mapredopt){
     printf("%i lines\n", lastmapsize);
     printf("%i lines\n", mapredopt->mapthreads);
 }
-struct list_node* mapper(char* key,FILE *fp){
-    /*
-     process which translates arbitrarily divided input up into key­value pairs (an
-     example is reading a file chunk and generating word­count for that file chunk)
-     */
-    /* Create root node */
-    struct list_node* root = (struct list_node*) malloc(sizeof(struct list_node));
-    struct list_node* tmp = root;
-    int i=0;
-    char c;
-    char buffer[64];
-    while(1)
-    {
-        if((c=fgetc(fp))==EOF)
-        {
-            tmp->value=1;
-            tmp->key=malloc(strlen(buffer));
-            memcpy(tmp->key,&buffer,strlen(buffer));
-            memset(buffer, 0, sizeof(buffer));
-            break;
-        }
-        if(isalpha(c))
-        {
-            buffer[i]=tolower(c);
-            i++;
-        }
-        else 
-        {
-            if(i>0)
-            {
-                tmp->value=1;
-                tmp->key=malloc(strlen(buffer));
-                memcpy(tmp->key,&buffer,strlen(buffer));
-                tmp->next=(struct list_node*) malloc(sizeof(struct list_node));
-                tmp=tmp->next;
-                i=0;
-                memset(buffer, 0, sizeof(buffer));
-            }
-        }
-    }
-    return root;
 
-}
 
 void shuffle(){
     /*
@@ -97,9 +59,54 @@ void reducer(){
      */
 }
 int main(int argc, const char * argv[]){
-    FILE *fp;
     fp=fopen("example.txt","r");
-    struct list_node* root =mapper("test",fp);
-    printf("%s\n",root->key);
+    /* Initializations */
+    int i;
+    int n=10;
+    pthread_t tid[n];
+    struct list_node* root[n];
+    /* Allocate initial */
+    
+    for(i=0;i<n;i++)
+    {
+        root[i] = (struct list_node*) malloc(sizeof(struct list_node));
+    }
+    
+    i=0;
+    temp=root;
+    while(!feof(fp))
+    {
+        pthread_create(&tid[i],NULL,&mapper_t,(void *) (intptr_t) i);
+        pthread_join(tid[i],NULL);
+        i++;
+        if(i==(n))
+        {
+            i=0;
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+    struct list_node* tmp =root[i];
+    while(tmp->next!=NULL)
+    {
+        printf("%s\n",tmp->key);
+        tmp=tmp->next;
+    }
+    }
+
+    for(i=0;i<n;i++)
+    {
+    struct list_node* tmp =root[i];
+    struct list_node* old;
+    while(tmp->next!=NULL)
+    {
+        free(tmp->key);
+        old = tmp;
+        tmp=tmp->next;
+        free(old);
+    }
+    free(tmp);
+    }
+
     return 0;
 }
