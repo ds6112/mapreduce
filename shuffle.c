@@ -4,63 +4,55 @@
 void* shuffle_i(void *tn){
     int id =(intptr_t) tn;
     struct list_node* tmp =temp[id];
-    while(tmp->next!=NULL){
-    printf ("%i\n",tmp ->value);
-    tempint->hash=tmp->value;
-    printf("%i\n",atoi(tmp->key));
-    tmp =tmp->next;
-}
-
-
-
-
-    /*while(tmp->next!=NULL)
+    struct sort_node *tmp_int;
+    struct sort_node *current;
+    struct sort_node *InsertPointer;
+    while(tmp->next!=NULL)
     {
-         printf ("%i\n",tmp ->value);
-
-       
-        tempint->hash = tmp->value;
         printf ("%i\n",tmp ->value);
-        tempint->value = atoi(tmp ->key);
-
-  printf ("%i\n",tmp ->value);
-  printf ("%i\n",tempint ->value);
-        if (rootint != NULL)
-        {
-            current = rootint;
+        tmp_int=(struct sort_node*) malloc(sizeof(struct sort_node));
+        tmp_int->value = atoi(tmp->key);
+        tmp_int->hash = tmp->value;
+        if (root_int != NULL)
+        {   
+            current=(struct sort_node*) malloc(sizeof(struct sort_node));
+            current = root_int;
             
-            if ( tempint -> value < rootint -> value )
+            if ( tmp_int -> value < root_int -> value )
             {
-                tempint -> next = current;
-                rootint = tempint;
+                tmp_int -> next = current;
+                root_int = tmp_int;
             }
             
-            else if ( tempint -> value > rootint -> value )
+            else if ( tmp_int -> value > root_int -> value )
             {
-                struct list_node *InsertPointer;
                 
-                while ( (tempint -> value > current -> value) && ( current -> next != NULL ) )
+                
+                while ( (tmp_int -> value > current -> value) && ( current -> next != NULL ) )
                 {
+                    InsertPointer=(struct sort_node*) malloc(sizeof(struct sort_node));
                     InsertPointer = current;
                     current = current -> next;
                     
                 }
                 
-                if ( (tempint -> value > current -> value) && ( current -> next == NULL ) )
-                    current -> next = tempint;
+                if ( (tmp_int -> value > current -> value) && ( current -> next == NULL ) )
+                    current -> next = tmp_int;
                 else
                 {
-                    InsertPointer -> next = tempint;
-                    tempint -> next = current;
+                    InsertPointer -> next = tmp_int;
+                    tmp_int -> next = current;
                 }
             }
         }
-        else 
+        else
         {
-            rootint = tempint;
+            root_int = tmp_int;
         }
         
     }
-    */
+    
 }
+
+
 

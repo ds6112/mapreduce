@@ -16,7 +16,7 @@ void mapreduce(FILE *fp, struct options arg_opt)
         root[i] = (struct list_node*) malloc(sizeof(struct list_node));
     }
     /* Allocate temp int*/
-    tempint=(struct sort_node*) malloc(sizeof(struct sort_node));
+    root_int=(struct sort_node*) malloc(sizeof(struct sort_node));
     i=0;
     
     temp=root;
@@ -43,10 +43,10 @@ void mapreduce(FILE *fp, struct options arg_opt)
         tmp=tmp->next;
     }
     }
-while (rootint->next!=NULL)
+while (root_int->next!=NULL)
 {
- printf("%s\n",rootint->value);
-        rootint=rootint->next;
+ printf("%s\n",root_int->value);
+        root_int=root_int->next;
 }
     for(i=0;i<n;i++)
     {

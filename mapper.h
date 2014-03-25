@@ -10,9 +10,9 @@
 #include <string.h>
 FILE *fp;
 struct list_node** temp;
-struct sort_node *tempint;
-struct sort_node *current;
-struct sort_node *rootint;
+struct sort_node *tmp_int;
+struct sort_node *cur;
+struct sort_node *root_int;
 struct list_node{
   char* key;
   int value;

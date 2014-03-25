@@ -49,7 +49,7 @@ void reducer(){
      */
 }
 int main(int argc, const char * argv[]){
-    int n=10;
+    int n=1;
     struct options arg_opt;
     arg_opt.map_t=n;
     fp=fopen("example.txt","r");
