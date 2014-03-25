@@ -1,5 +1,5 @@
-#ifndef WHATEVER_H_INCLUDED
-#define WHATEVER_H_INCLUDED
+#ifndef MAPPER_WC_H_INCLUDED
+#define MAPPER_WC_H_INCLUDED
 #define LINESIZE 4096
 #define WORDSIZE 256
 #include <stdio.h>
@@ -8,6 +8,11 @@
 #include <semaphore.h>
 #include <stdlib.h>
 #include <string.h>
+struct list_node{
+  char* key;
+  int value;
+  struct list_node *next;
+};
 void* mapper_t(void *node);
 struct list_node* mapper_p(char* key,FILE *fp);
 #endif

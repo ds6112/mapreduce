@@ -5,30 +5,19 @@
 #include <semaphore.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mapper_wc.h"
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+#include "mapreducer.h"
 FILE *fp;
-struct list_node** temp;
-struct options{
-    int inputtype;
-    int mapthreads;
-    int reducethreads;
-};
-struct list_node{
-  char* key;
-  int value;
-  struct list_node *next;
-};
 /*
 void mapreducer();
 void mapper();
 void shuffle();
 void reducer();
  */
+/*
 void mapreducer(FILE *filepointer, struct options *mapredopt){
     /*
      parent controller which creates threads and coordinates stages of the pipeline
-     */
+     
     int token;
     int numberofmaps =mapredopt->mapthreads;
     int numberoflines = 0;
@@ -43,7 +32,7 @@ void mapreducer(FILE *filepointer, struct options *mapredopt){
     printf("%i lines\n", lastmapsize);
     printf("%i lines\n", mapredopt->mapthreads);
 }
-
+*/
 
 void shuffle(){
     /*
@@ -59,54 +48,12 @@ void reducer(){
      */
 }
 int main(int argc, const char * argv[]){
-    fp=fopen("example.txt","r");
-    /* Initializations */
-    int i;
     int n=10;
-    pthread_t tid[n];
-    struct list_node* root[n];
-    /* Allocate initial */
-    
-    for(i=0;i<n;i++)
-    {
-        root[i] = (struct list_node*) malloc(sizeof(struct list_node));
-    }
-    
-    i=0;
-    temp=root;
-    while(!feof(fp))
-    {
-        pthread_create(&tid[i],NULL,&mapper_t,(void *) (intptr_t) i);
-        pthread_join(tid[i],NULL);
-        i++;
-        if(i==(n))
-        {
-            i=0;
-        }
-    }
-    for(i=0;i<n;i++)
-    {
-    struct list_node* tmp =root[i];
-    while(tmp->next!=NULL)
-    {
-        printf("%s\n",tmp->key);
-        tmp=tmp->next;
-    }
-    }
-
-    for(i=0;i<n;i++)
-    {
-    struct list_node* tmp =root[i];
-    struct list_node* old;
-    while(tmp->next!=NULL)
-    {
-        free(tmp->key);
-        old = tmp;
-        tmp=tmp->next;
-        free(old);
-    }
-    free(tmp);
-    }
+    struct options arg_opt;
+    arg_opt.map_t=n;
+    fp=fopen("example.txt","r");
+    mapreduce(fp,arg_opt);
+ 
 
     return 0;
 }

@@ -1,11 +1,6 @@
 #include "mapper_wc.h"
 FILE *fp;
 struct list_node** temp;
-struct list_node{
-  char* key;
-  int value;
-  struct list_node *next;
-};
 void* mapper_t(void *tn)
 { 
     int i=0,j=0;
