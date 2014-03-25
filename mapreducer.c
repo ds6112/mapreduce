@@ -1,11 +1,13 @@
 #include "mapreducer.h"
 #include "mapper.h"
+#include "shuffle.h"
 void mapreduce(FILE *fp, struct options arg_opt)
 {
 	   /* Initializations */
     int i;
     int n=arg_opt.map_t;
     pthread_t tid[n];
+	pthread_t tidint[n];
     struct list_node* root[n];
     /* Allocate initial */
     
@@ -13,7 +15,8 @@ void mapreduce(FILE *fp, struct options arg_opt)
     {
         root[i] = (struct list_node*) malloc(sizeof(struct list_node));
     }
-    
+    /* Allocate temp int*/
+    tempint=(struct sort_node*) malloc(sizeof(struct sort_node));
     i=0;
     
     temp=root;
@@ -22,6 +25,8 @@ void mapreduce(FILE *fp, struct options arg_opt)
     {
         pthread_create(&tid[i],NULL,&mapper_t,(void *) (intptr_t) i);
         pthread_join(tid[i],NULL);
+	    pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
+        pthread_join(tidint[i],NULL);
         i++;
         if(i==(n))
         {
@@ -38,7 +43,11 @@ void mapreduce(FILE *fp, struct options arg_opt)
         tmp=tmp->next;
     }
     }
-
+while (rootint->next!=NULL)
+{
+ printf("%s\n",rootint->value);
+        rootint=rootint->next;
+}
     for(i=0;i<n;i++)
     {
     struct list_node* tmp =root[i];

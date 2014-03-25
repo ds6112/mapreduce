@@ -1,7 +1,7 @@
 CC = gcc
 all:	mapred
-mapred:	main.o	mapreducer.o mapper.o
-	$(CC) -o mapred	main.o	mapreducer.o mapper.o -lpthread
+mapred:	main.o	mapreducer.o shuffle.o mapper.o
+	$(CC) -o mapred	main.o	mapreducer.o shuffle.o mapper.o -lpthread
 main.o:	main.c
 	$(CC) -c main.c -lpthread
 mapreducer.o: mapreducer.c mapreducer.h

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mapreducer.h"
+#include "shuffle.h"
 FILE *fp;
 /*
 void mapreducer();

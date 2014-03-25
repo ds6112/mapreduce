@@ -10,18 +10,10 @@
 #include <string.h>
 FILE *fp;
 struct list_node** temp;
-struct sort_node *tempint;
-struct sort_node *current;
-struct sort_node *rootint;
 struct list_node{
   char* key;
   int value;
   struct list_node *next;
-};
-struct sort_node {
-	int hash;
-	int value;
-	struct sort_node *next;
 };
 void* mapper_t(void *node);
 struct list_node* mapper_p(char* key,FILE *fp);
