@@ -1,13 +1,14 @@
 #include "mapper_wc.h"
-
-struct list_node** temp;
 void* mapper_t(void *tn)
 { 
     int i=0,j=0;
     char c;
     char line_buffer[LINESIZE];
     char word_buffer[WORDSIZE];
-    fgets(line_buffer,sizeof(line_buffer),fp);
+    if(!fgets(line_buffer,sizeof(line_buffer),fp))
+    {
+            return;
+    }
     int id =(intptr_t) tn;
     struct list_node* tmp =temp[id];
     /* Goto end of list */
@@ -35,13 +36,15 @@ void* mapper_t(void *tn)
             break;
         }
         /* Store alphabetical characters & convert to lower case */
-        if(isalpha(c) || isdigit(c))
+        if(isalpha(c))
         {
+            /*
             if(isalpha(c))
             {
                 c=tolower(c);
             }
-            word_buffer[j]=c;
+            */
+            word_buffer[j]=tolower(c);
             j++;
         }
         else
@@ -49,6 +52,10 @@ void* mapper_t(void *tn)
             /* When non alphabetical character occurs, dump buffer if we have a word */
             if(j>0)
             {
+                if(strlen(word_buffer)==0)
+                {
+                     break;
+                }
                 tmp->value=1;
                 tmp->key=malloc(strlen(word_buffer));
                 memcpy(tmp->key,&word_buffer,strlen(word_buffer));
