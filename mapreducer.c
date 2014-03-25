@@ -1,5 +1,5 @@
 #include "mapreducer.h"
-#include "mapper_wc.h"
+#include "mapper.h"
 void mapreduce(FILE *fp, struct options arg_opt)
 {
 	   /* Initializations */

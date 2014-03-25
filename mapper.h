@@ -1,5 +1,5 @@
-#ifndef MAPPER_WC_H_INCLUDED
-#define MAPPER_WC_H_INCLUDED
+#ifndef MAPPER_H_INCLUDED
+#define MAPPER_H_INCLUDED
 #define LINESIZE 4096
 #define WORDSIZE 256
 #include <stdio.h>

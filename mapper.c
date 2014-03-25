@@ -1,4 +1,4 @@
-#include "mapper_wc.h"
+#include "mapper.h"
 void* mapper_t(void *tn)
 { 
     int i=0,j=0;
@@ -22,7 +22,7 @@ void* mapper_t(void *tn)
         c=line_buffer[i];
         i++;
         /* End of line, store final word*/
-        if(c=='\n')
+        if(c=='\n' || c=='\0')
         {
             if(strlen(word_buffer)==0)
             {
@@ -36,15 +36,15 @@ void* mapper_t(void *tn)
             break;
         }
         /* Store alphabetical characters & convert to lower case */
-        if(isalpha(c))
+        if(isalpha(c) || isdigit(c))
         {
-            /*
+            
             if(isalpha(c))
             {
                 c=tolower(c);
             }
-            */
-            word_buffer[j]=tolower(c);
+            
+            word_buffer[j]=c;
             j++;
         }
         else
