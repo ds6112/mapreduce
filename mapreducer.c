@@ -1,7 +1,5 @@
 #include "mapreducer.h"
 #include "mapper_wc.h"
-FILE *fp;
-struct list_node** temp;
 void mapreduce(FILE *fp, struct options arg_opt)
 {
 	   /* Initializations */
@@ -17,7 +15,9 @@ void mapreduce(FILE *fp, struct options arg_opt)
     }
     
     i=0;
+    
     temp=root;
+
     while(!feof(fp))
     {
         pthread_create(&tid[i],NULL,&mapper_t,(void *) (intptr_t) i);
@@ -28,6 +28,7 @@ void mapreduce(FILE *fp, struct options arg_opt)
             i=0;
         }
     }
+    
     for(i=0;i<n;i++)
     {
     struct list_node* tmp =root[i];
@@ -49,6 +50,7 @@ void mapreduce(FILE *fp, struct options arg_opt)
         tmp=tmp->next;
         free(old);
     }
+    
     free(tmp);
     }
 

@@ -1,5 +1,5 @@
 #include "mapper_wc.h"
-FILE *fp;
+
 struct list_node** temp;
 void* mapper_t(void *tn)
 { 

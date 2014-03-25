@@ -8,6 +8,8 @@
 #include <semaphore.h>
 #include <stdlib.h>
 #include <string.h>
+FILE *fp;
+struct list_node** temp;
 struct list_node{
   char* key;
   int value;
