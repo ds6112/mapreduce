@@ -45,12 +45,13 @@ void mapreduce(FILE *fp, struct options arg_opt)
         tmp=tmp->next;
     }*/
     }
-
+/*
 while (root_int!='\0')
 {
- printf("%i\n",root_int->value);
+ printf("Value is: %i\n",root_int->value);
+ printf("Key is: %i\n",root_int->hash);
         root_int=root_int->next;
-}
+}*/
 
     for(i=0;i<n;i++)
     {

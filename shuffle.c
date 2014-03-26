@@ -7,9 +7,10 @@ void* shuffle_i(void *tn){
     struct sort_node *tmp_int;
     struct sort_node *current;
     struct sort_node *InsertPointer;
+    /*int i =0;*/
     while(tmp->next!=NULL)
     {
-        
+        /*i++;*/
         tmp_int=(struct sort_node*) malloc(sizeof(struct sort_node));
         tmp_int->value = atoi(tmp->key);
         tmp_int->hash = tmp->value;
@@ -53,6 +54,7 @@ void* shuffle_i(void *tn){
         tmp=tmp->next;
 
     }
+    /*printf("%i\n", i);*/
     
 }
 
