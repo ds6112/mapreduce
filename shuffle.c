@@ -9,12 +9,12 @@ void* shuffle_i(void *tn){
     struct sort_node *InsertPointer;
     while(tmp->next!=NULL)
     {
-        printf ("%i\n",tmp ->value);
+        
         tmp_int=(struct sort_node*) malloc(sizeof(struct sort_node));
         tmp_int->value = atoi(tmp->key);
         tmp_int->hash = tmp->value;
         tmp_int->next = NULL;
-        if (root_int != NULL)
+        if (root_int != '\0')
         {   
             current=(struct sort_node*) malloc(sizeof(struct sort_node));
             current = root_int;
@@ -51,6 +51,7 @@ void* shuffle_i(void *tn){
             root_int = tmp_int;
         }
         tmp=tmp->next;
+
     }
     
 }

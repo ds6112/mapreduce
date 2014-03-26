@@ -16,7 +16,7 @@ void mapreduce(FILE *fp, struct options arg_opt)
         root[i] = (struct list_node*) malloc(sizeof(struct list_node));
     }
     /* Allocate temp int*/
-    root_int=(struct sort_node*) malloc(sizeof(struct sort_node));
+
     i=0;
     
     temp=root;
@@ -25,29 +25,33 @@ void mapreduce(FILE *fp, struct options arg_opt)
     {
         pthread_create(&tid[i],NULL,&mapper_t,(void *) (intptr_t) i);
         pthread_join(tid[i],NULL);
-	    pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
-        pthread_join(tidint[i],NULL);
+	    
         i++;
         if(i==(n))
         {
             i=0;
         }
     }
-    
+    for (i=0;i<n;i++){
+    pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
+        pthread_join(tidint[i],NULL);}
     for(i=0;i<n;i++)
     {
     struct list_node* tmp =root[i];
+    /*
     while(tmp->next!=NULL)
     {
         printf("%s\n",tmp->key);
         tmp=tmp->next;
+    }*/
     }
-    }
-while (root_int->next!=NULL)
+
+while (root_int!='\0')
 {
- printf("%s\n",root_int->value);
+ printf("%i\n",root_int->value);
         root_int=root_int->next;
 }
+
     for(i=0;i<n;i++)
     {
     struct list_node* tmp =root[i];
