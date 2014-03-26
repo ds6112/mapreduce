@@ -21,7 +21,7 @@ struct sort_node {
 	int value;
 	struct sort_node *next;
 };
-void* mapper_t(void *node);
-void* mapper_p(void *node);
+void* mapper_w(void *node);
+void* mapper_i(void *node);
 void emit(char* key, int value, int id);
 #endif

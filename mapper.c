@@ -1,22 +1,15 @@
 #include "mapper.h"
-void* mapper_t(void *tn)
+void* mapper_w(void *tn)
 { 
     int i=0,j=0;
     char c;
     char line_buffer[LINESIZE];
     char word_buffer[WORDSIZE];
-    if(!fgets(line_buffer,sizeof(line_buffer),fp))
-    {
-            return;
-    }
+    
     int id =(intptr_t) tn;
-    struct list_node* tmp =temp[id];
-    /* Goto end of list */
-    while(tmp->next!=NULL)
-    {
-        tmp=tmp->next;
-    }
-
+    while(fgets(line_buffer,sizeof(line_buffer),fp))
+    {   i=0;
+        j=0;
     while(i<LINESIZE)
     {
         c=line_buffer[i];
@@ -28,11 +21,8 @@ void* mapper_t(void *tn)
             {
                 break;
             }
-            tmp->value=1;
-            tmp->key=malloc(strlen(word_buffer));
-            memcpy(tmp->key,&word_buffer,strlen(word_buffer));
-            tmp->next=(struct list_node*) malloc(sizeof(struct list_node));
-            memset(word_buffer, 0, sizeof(word_buffer));
+            emit(word_buffer, 1, id);
+                memset(word_buffer, 0, sizeof(word_buffer));
             break;
         }
         /* Store alphabetical characters & convert to lower case */
@@ -56,18 +46,20 @@ void* mapper_t(void *tn)
                 {
                      break;
                 }
-                tmp->value=1;
-                tmp->key=malloc(strlen(word_buffer));
-                memcpy(tmp->key,&word_buffer,strlen(word_buffer));
+                emit(word_buffer, 1, id);
                 memset(word_buffer, 0, sizeof(word_buffer));
-                tmp->next=(struct list_node*) malloc(sizeof(struct list_node));
-                tmp=tmp->next;
                 j=0;
             }
         }
     }
+
 }
-void* mapper_p(void *tn)
+if(!fgets(line_buffer,sizeof(line_buffer),fp))
+    {
+            return;
+    }
+}
+void* mapper_i(void *tn)
 { 
     int i=0,j=0;
     char c;
@@ -117,6 +109,7 @@ void* mapper_p(void *tn)
     }
     if(fgets(line_buffer,sizeof(line_buffer),fp))
         return;
+
 }
 
 void emit(char* key, int value, int id){
@@ -135,8 +128,6 @@ else
 
     if ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) < 0 )
             {
-
-    printf("%i\n",temp[id]->value);
                 ins -> next = temp[id];
                 temp[id] = ins;
             }
