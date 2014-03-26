@@ -10,8 +10,6 @@
 #include <string.h>
 FILE *fp;
 struct list_node** temp;
-struct sort_node *tmp_int;
-struct sort_node *cur;
 struct sort_node *root_int;
 struct list_node{
   char* key;
@@ -24,5 +22,6 @@ struct sort_node {
 	struct sort_node *next;
 };
 void* mapper_t(void *node);
-struct list_node* mapper_p(char* key,FILE *fp);
+void* mapper_p(void *node);
+void emit(char* key, int value, int id);
 #endif

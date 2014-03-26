@@ -67,46 +67,101 @@ void* mapper_t(void *tn)
         }
     }
 }
-struct list_node* mapper_p(char* key,FILE *fp){
-    /*
-     process which translates arbitrarily divided input up into key­value pairs (an
-     example is reading a file chunk and generating word­count for that file chunk)
-     */
-    /* Create root node */
-    struct list_node* root = (struct list_node*) malloc(sizeof(struct list_node));
-    struct list_node* tmp = root;
-    int i=0;
+void* mapper_p(void *tn)
+{ 
+    int i=0,j=0;
     char c;
-    char buffer[64];
-    while(1)
-    {
-        if((c=fgetc(fp))==EOF)
+    char line_buffer[LINESIZE];
+    char word_buffer[WORDSIZE];
+    int id =(intptr_t) tn;
+    char* key = "1\0";
+    while(fgets(line_buffer,sizeof(line_buffer),fp))
+    {   i=0;
+        j=0;
+    while(i<LINESIZE)
+    {   
+        c=line_buffer[i];
+        i++;
+        /* End of line, store final word*/
+        if(c=='\n' || c=='\0')
         {
-            tmp->value=1;
-            tmp->key=malloc(strlen(buffer));
-            memcpy(tmp->key,&buffer,strlen(buffer));
-            memset(buffer, 0, sizeof(buffer));
+            if(strlen(word_buffer)==0)
+            {
+                break;
+            }
+            emit(key,atoi(word_buffer), id);
+            memset(word_buffer, 0, sizeof(word_buffer));
             break;
         }
-        if(isalpha(c))
+        /* Store alphabetical characters & convert to lower case */
+        if(isdigit(c))
         {
-            buffer[i]=tolower(c);
-            i++;
+            word_buffer[j]=c;
+            j++;
         }
-        else 
+        else
         {
-            if(i>0)
+            /* When non alphabetical character occurs, dump buffer if we have a word */
+            if(j>0)
             {
-                tmp->value=1;
-                tmp->key=malloc(strlen(buffer));
-                memcpy(tmp->key,&buffer,strlen(buffer));
-                tmp->next=(struct list_node*) malloc(sizeof(struct list_node));
-                tmp=tmp->next;
-                i=0;
-                memset(buffer, 0, sizeof(buffer));
+                if(strlen(word_buffer)==0)
+                {
+                     break;
+                }
+                emit(key, atoi(word_buffer), id);
+                memset(word_buffer, 0, sizeof(word_buffer));
+                j=0;
             }
         }
     }
-    return root;
+    }
+    if(fgets(line_buffer,sizeof(line_buffer),fp))
+        return;
+}
 
+void emit(char* key, int value, int id){
+struct list_node *insNode; 
+struct list_node *cur =temp[id];
+struct list_node *ins =(struct list_node*) malloc(sizeof(struct list_node)); 
+
+ins->value = value;
+ins->key = key;
+ins->next =NULL;
+
+if (temp[id]->key=='\0')
+    temp[id]=ins;
+else
+{
+
+    if ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) < 0 )
+            {
+
+    printf("%i\n",temp[id]->value);
+                ins -> next = temp[id];
+                temp[id] = ins;
+            }
+            
+            else if ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) >= 0 )
+            {
+                 
+                
+                while ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) >= 0 && ( cur -> next != '\0' ) )
+                {
+                    insNode = cur;
+                    cur = cur -> next;
+                    
+                }
+                
+                if ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) >= 0 && ( cur -> next == '\0' ) )
+                    {
+                        cur -> next = ins;
+                    }
+                else
+                {
+                    insNode -> next = ins;
+                    ins -> next = cur;
+                }
+            }
+
+}
 }

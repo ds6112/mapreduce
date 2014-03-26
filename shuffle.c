@@ -1,6 +1,7 @@
 
 #include "shuffle.h"
 #include "mapper.h"
+#include "mapreducer.h"
 void* shuffle_i(void *tn){
     int id =(intptr_t) tn;
     struct list_node* tmp =temp[id];
@@ -8,6 +9,7 @@ void* shuffle_i(void *tn){
     struct sort_node *current;
     struct sort_node *InsertPointer;
     /*int i =0;*/
+    sem_wait(&mutex);
     while(tmp->next!=NULL)
     {
         /*i++;*/
@@ -54,6 +56,7 @@ void* shuffle_i(void *tn){
         tmp=tmp->next;
 
     }
+    sem_post(&mutex);
     /*printf("%i\n", i);*/
     
 }

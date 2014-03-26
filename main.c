@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mapreducer.h"
-#include "shuffle.h"
 FILE *fp;
 /*
 void mapreducer();
@@ -35,27 +34,16 @@ void mapreducer(FILE *filepointer, struct options *mapredopt){
 }
 */
 
-void shuffle(){
-    /*
-     process which restructures the unordered key­value outputs of the mapper
-     into a map of key­>set of values required by the reducer (in the word counting example,
-     taking all separate word­counts from the input files and re­organizing by word­count)
-     */
-}
-void reducer(){
-    /*
-     process which takes the key­set of values and creates a single key­value
-     output (sum up the counts for each word and output a single word­count for all files)
-     */
-}
+
 int main(int argc, const char * argv[]){
+    
     int n=10;
     struct options arg_opt;
     arg_opt.map_t=n;
     fp=fopen("example.txt","r");
     
     mapreduce(fp,arg_opt);
- 
+    
 
     return 0;
 }

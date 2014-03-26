@@ -11,5 +11,6 @@ struct options{
     int map_t;
     int reduce_t;
 };
+sem_t mutex;
 void mapreduce(FILE *fp, struct options arg_opt);
 #endif
