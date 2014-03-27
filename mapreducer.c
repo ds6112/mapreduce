@@ -34,6 +34,33 @@ void mapreduce(FILE *fp, struct options arg_opt)
             i=0;
         }
     }
+    
+    /* BETTER IMPLEMENTATION BUT BROKEN, NEED MUTEX?
+    while(1)
+    {
+        for(i=0;i<n;i++)
+        {
+            pthread_create(&tid[i],NULL,mapper[arg_opt.type],(void *) (intptr_t) i);
+                    if(feof(fp))
+        {
+            break;
+        }
+        }
+        for(i=0;i<n;i++)
+        {
+        pthread_join(tid[i],NULL);
+                   if(feof(fp))
+        {
+            break;
+        }
+
+        }
+        if(feof(fp))
+        {
+            break;
+        }
+    }
+    */
    /* for (i=0;i<n;i++){
     pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
         pthread_join(tidint[i],NULL);}*/
