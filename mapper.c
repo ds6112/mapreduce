@@ -120,6 +120,37 @@ struct list_node *ins =(struct list_node*) malloc(sizeof(struct list_node));
 ins->value = value;
 ins->key = key;
 ins->next =NULL;
+if(key=="1\0")
+{
+if ( temp[id]->value > value )
+{
+    ins -> next = temp[id];
+    temp[id] = ins;
+
+}
+
+else if ( value >= temp[id]->value )
+{
+
+    while ( value >= cur->value && ( cur -> next != '\0' ) )
+    {
+        insNode = cur;
+        cur = cur -> next;
+
+    }
+
+    if ( value >= cur->value && ( cur -> next == '\0' ) )
+    {
+        cur -> next = ins;
+    }
+    else
+    {
+        insNode -> next = ins;
+        ins -> next = cur;
+    }
+}
+}
+else{
 if (temp[id]->key=='\0')
     temp[id]=ins;
 else
@@ -157,5 +188,6 @@ else
                     }
             }
 
+}
 }
 }
