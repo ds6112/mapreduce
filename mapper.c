@@ -1,5 +1,5 @@
 #include "mapper.h"
-
+pthread_mutex_t f_mutex = PTHREAD_MUTEX_INITIALIZER;
 void* mapper_w(void *tn)
 { 
     int i=0,j=0;
@@ -8,6 +8,7 @@ void* mapper_w(void *tn)
     char word_buffer[WORDSIZE];
     
     int id =(intptr_t) tn;
+    pthread_mutex_lock(&f_mutex);
     if(!fgets(line_buffer,sizeof(line_buffer),fp))
         return;
     while(line_buffer[0]=='\n')
@@ -16,6 +17,7 @@ void* mapper_w(void *tn)
         if(!fgets(line_buffer,sizeof(line_buffer),fp))
         return;
     }
+    pthread_mutex_unlock(&f_mutex);
     while(i<LINESIZE)
     {
         c=line_buffer[i];
@@ -78,8 +80,10 @@ void* mapper_i(void *tn)
     char word_buffer[WORDSIZE];
     int id =(intptr_t) tn;
     char* key = "1\0";
+    pthread_mutex_lock(&f_mutex);
     if(!fgets(line_buffer,sizeof(line_buffer),fp))
         return;
+    pthread_mutex_unlock(&f_mutex);
     while(i<LINESIZE)
     {   
         c=line_buffer[i];

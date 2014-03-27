@@ -23,7 +23,7 @@ void mapreduce(FILE *fp, struct options arg_opt)
     i=0;
 
     /* Allocate temp int*/
-    
+    /*
     while(!feof(fp))
     {
         pthread_create(&tid[i],NULL,mapper[arg_opt.type],(void *) (intptr_t) i);
@@ -34,33 +34,25 @@ void mapreduce(FILE *fp, struct options arg_opt)
             i=0;
         }
     }
-    
-    /* BETTER IMPLEMENTATION BUT BROKEN, NEED MUTEX?
-    while(1)
+    */
+    // BETTER IMPLEMENTATION -> CHECK IF THIS WORKS IN ALL CASES? ANY BUGS?
+    while(!feof(fp))
     {
         for(i=0;i<n;i++)
         {
-            pthread_create(&tid[i],NULL,mapper[arg_opt.type],(void *) (intptr_t) i);
-                    if(feof(fp))
-        {
-            break;
-        }
+        pthread_create(&tid[i],NULL,mapper[arg_opt.type],(void *) (intptr_t) i);
         }
         for(i=0;i<n;i++)
         {
         pthread_join(tid[i],NULL);
-                   if(feof(fp))
+        if(feof(fp))
         {
             break;
         }
 
         }
-        if(feof(fp))
-        {
-            break;
-        }
     }
-    */
+    
    /* for (i=0;i<n;i++){
     pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
         pthread_join(tidint[i],NULL);}*/
