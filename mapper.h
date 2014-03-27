@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 FILE *fp;
+int *flag_array;
 struct list_node** temp;
 struct sort_node *root_int;
 struct list_node{

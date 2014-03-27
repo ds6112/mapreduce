@@ -7,6 +7,7 @@
 #include <string.h>
 #include "mapreducer.h"
 FILE *fp;
+
 /*
 void mapreducer();
 void mapper();
@@ -37,7 +38,13 @@ void mapreducer(FILE *filepointer, struct options *mapredopt){
 
 int main(int argc, const char * argv[]){
     
-    int n=10;
+    int i,n=10;
+    /* flag array for ints */
+    flag_array=malloc(n*sizeof(int));
+    for(i=0;i<n;i++)
+    {
+        flag_array[i]=0;
+    }
     struct options arg_opt;
     arg_opt.map_t=n;
     fp=fopen("example.txt","r");

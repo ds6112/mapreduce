@@ -17,12 +17,13 @@ void mapreduce(FILE *fp, struct options arg_opt)
         root[i] = (struct list_node*) malloc(sizeof(struct list_node));
         bzero(root[i],sizeof(struct list_node));
     }
+
     /* Allocate temp int*/
 
     i=0;
     
     temp=root;
-
+    printf("%i\n",temp[0]->value);
     while(!feof(fp))
     {
         pthread_create(&tid[i],NULL,&mapper_i,(void *) (intptr_t) i);

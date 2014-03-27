@@ -6,6 +6,7 @@
 #include <semaphore.h>
 #include <stdlib.h>
 #include <string.h>
+int *flag_array;
 struct options{
     int type;
     int map_t;

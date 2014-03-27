@@ -1,4 +1,5 @@
 #include "mapper.h"
+
 void* mapper_w(void *tn)
 { 
     int i=0,j=0;
@@ -122,13 +123,19 @@ ins->key = key;
 ins->next =NULL;
 if(key=="1\0")
 {
-if ( temp[id]->value > value )
+if(temp[id]->next == NULL && flag_array[id]==0)
+{
+    temp[id]=ins;
+    flag_array[id]=1;
+}
+else
+{
+if ( value < temp[id]->value )
 {
     ins -> next = temp[id];
     temp[id] = ins;
 
 }
-
 else if ( value >= temp[id]->value )
 {
 
@@ -148,6 +155,8 @@ else if ( value >= temp[id]->value )
         insNode -> next = ins;
         ins -> next = cur;
     }
+
+}
 }
 }
 else{
