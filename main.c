@@ -45,12 +45,15 @@ int main(int argc, const char * argv[]){
     {
         flag_array[i]=0;
     }
+
     struct options arg_opt;
     arg_opt.map_t=n;
-    fp=fopen("example.txt","r");
+    arg_opt.type=0;
+    /* type 0 is wc, 1 is integer*/
+    fp=fopen("example_wc.txt","r");
     
     mapreduce(fp,arg_opt);
-    
+    free(flag_array);
 
     return 0;
 }

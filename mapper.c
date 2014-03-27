@@ -10,6 +10,12 @@ void* mapper_w(void *tn)
     int id =(intptr_t) tn;
     if(!fgets(line_buffer,sizeof(line_buffer),fp))
         return;
+    while(line_buffer[0]=='\n')
+    {
+        bzero(line_buffer,sizeof(line_buffer));
+        if(!fgets(line_buffer,sizeof(line_buffer),fp))
+        return;
+    }
     while(i<LINESIZE)
     {
         c=line_buffer[i];
@@ -27,7 +33,7 @@ void* mapper_w(void *tn)
             memcpy(key, word_buffer, j);
 
             emit(key, 1, id);
-            memset(word_buffer, 0, sizeof(word_buffer));
+            bzero(word_buffer,sizeof(word_buffer));
             break;
         }
         /* Store alphabetical characters & convert to lower case */
@@ -57,9 +63,8 @@ void* mapper_w(void *tn)
             bzero(key, strlen(key));
             memcpy(key, word_buffer, j);
             emit(key, 1, id);
-
-            memset(word_buffer, 0, sizeof(word_buffer));
-                j=0;
+            bzero(word_buffer,sizeof(word_buffer));
+            j=0;
             }
         }
     }
@@ -87,7 +92,7 @@ void* mapper_i(void *tn)
                 break;
             }
             emit(key,atoi(word_buffer), id);
-            memset(word_buffer, 0, sizeof(word_buffer));
+            bzero(word_buffer,sizeof(word_buffer));
             break;
         }
         /* Store alphabetical characters & convert to lower case */
@@ -106,7 +111,7 @@ void* mapper_i(void *tn)
                      break;
                 }
                 emit(key, atoi(word_buffer), id);
-                memset(word_buffer, 0, sizeof(word_buffer));
+                bzero(word_buffer,sizeof(word_buffer));
                 j=0;
             }
         }
@@ -125,8 +130,10 @@ if(key=="1\0")
 {
 if(temp[id]->next == NULL && flag_array[id]==0)
 {
-    temp[id]=ins;
+    temp[id]->key=key;
+    temp[id]->value=value;
     flag_array[id]=1;
+    free(ins);
 }
 else
 {
@@ -139,14 +146,14 @@ if ( value < temp[id]->value )
 else if ( value >= temp[id]->value )
 {
 
-    while ( value >= cur->value && ( cur -> next != '\0' ) )
+    while ( value >= cur->value && ( cur -> next != NULL ) )
     {
         insNode = cur;
         cur = cur -> next;
 
     }
 
-    if ( value >= cur->value && ( cur -> next == '\0' ) )
+    if ( value >= cur->value && ( cur -> next == NULL ) )
     {
         cur -> next = ins;
     }
@@ -160,8 +167,12 @@ else if ( value >= temp[id]->value )
 }
 }
 else{
-if (temp[id]->key=='\0')
-    temp[id]=ins;
+if (temp[id]->key==NULL  )
+{
+    temp[id]->key=key;
+    temp[id]->value=value;
+    free(ins);
+}
 else
 {
 
@@ -169,7 +180,6 @@ else
             {
                 ins -> next = temp[id];
                 temp[id] = ins;
-                printf("%s\n",ins->key);
             
             }
             
@@ -187,12 +197,10 @@ else
                 if ( strcmp(key,cur-> key) >= 0 && ( cur -> next == '\0' ) )
                     {
                         cur -> next = ins;
-                        printf("%s\n",ins->key);
                     }
                 else
                     {
                         insNode -> next = ins;
-                        printf("%s\n",ins->key);
                         ins -> next = cur;
                     }
             }

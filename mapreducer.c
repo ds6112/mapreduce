@@ -10,6 +10,9 @@ void mapreduce(FILE *fp, struct options arg_opt)
     pthread_t tid[n];
 	pthread_t tidint[n];
     struct list_node* root[n];
+    temp=root;
+    /* function pointer array*/
+    void* (mapper[2])={mapper_w,mapper_i};
     /* Allocate initial */
     
     for(i=0;i<n;i++)
@@ -17,25 +20,20 @@ void mapreduce(FILE *fp, struct options arg_opt)
         root[i] = (struct list_node*) malloc(sizeof(struct list_node));
         bzero(root[i],sizeof(struct list_node));
     }
+    i=0;
 
     /* Allocate temp int*/
-
-    i=0;
     
-    temp=root;
-    printf("%i\n",temp[0]->value);
     while(!feof(fp))
     {
-        pthread_create(&tid[i],NULL,&mapper_i,(void *) (intptr_t) i);
-        pthread_join(tid[i],NULL);
-	    
+        pthread_create(&tid[i],NULL,mapper[arg_opt.type],(void *) (intptr_t) i);
+        pthread_join(tid[i],NULL);  
         i++;
         if(i==(n))
         {
             i=0;
         }
     }
-    
    /* for (i=0;i<n;i++){
     pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
         pthread_join(tidint[i],NULL);}*/
@@ -44,10 +42,24 @@ void mapreduce(FILE *fp, struct options arg_opt)
     struct list_node* tmp =root[i];
     while (tmp->next !=NULL)
     {
-        printf("value: %i\n",tmp->value);
+        if(arg_opt.type)
+        {
+            printf("value: %i\n",tmp->value);
+        }
+        else
+        {
+            printf("value: %s\n",tmp->key); 
+        }
         tmp =tmp->next;
     }
-    printf("value: %i\n\n",tmp->value);
+        if(arg_opt.type)
+        {
+            printf("value: %i\n\n",tmp->value);
+        }
+        else
+        {
+            printf("value: %s\n\n",tmp->key); 
+        }
     }
 /*
 while (root_int!='\0')
@@ -61,12 +73,23 @@ while (root_int!='\0')
     {
     struct list_node* tmp =root[i];
     struct list_node* old;
+    /* WRITE LOGIC TO FREE KEY ONLY IN WORDCOUNT CASE */
     while(tmp->next!=NULL)
     {
         old = tmp;
         tmp=tmp->next;
+        if(!arg_opt.type)
+        {
+        free(old->key);
+        }
         free(old);
     }
+
+    if(!arg_opt.type)
+    {
+    free(tmp->key);
+    }
+
     free(tmp);
     }
     
