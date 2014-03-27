@@ -34,18 +34,19 @@ void mapreduce(FILE *fp, struct options arg_opt)
             i=0;
         }
     }
+    
    /* for (i=0;i<n;i++){
     pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
         pthread_join(tidint[i],NULL);}*/
-    printf("test\n");
     for(i=0;i<n;i++)
     {
     struct list_node* tmp =root[i];
     while (tmp->next !=NULL)
     {
-        tmp =tmp->next;
         printf("value: %s\n",tmp->key);
-}
+        tmp =tmp->next;
+    }
+    printf("value: %s\n",tmp->key);
     }
 /*
 while (root_int!='\0')
@@ -67,18 +68,6 @@ while (root_int!='\0')
     }
     free(tmp);
     }
-    for(i=0;i<n;i++)
-    {
-    struct sort_node* tmp =root_int;
-    /*while(tmp->next!=NULL)
-    {
-        free(tmp->key);
-        old = tmp;
-        tmp=tmp->next;
-        free(old);
-        printf("seg2\n");
-    }*/
-    free(tmp);
-    }
+    
 sem_destroy(&mutex);
 }

@@ -21,8 +21,13 @@ void* mapper_w(void *tn)
             {
                 break;
             }
-            emit(word_buffer, 1, id);
-                memset(word_buffer, 0, sizeof(word_buffer));
+            char *key;
+            key=malloc(strlen(word_buffer)+1);
+            bzero(key, strlen(key));
+            memcpy(key, word_buffer, j);
+
+            emit(key, 1, id);
+            memset(word_buffer, 0, sizeof(word_buffer));
             break;
         }
         /* Store alphabetical characters & convert to lower case */
@@ -46,8 +51,14 @@ void* mapper_w(void *tn)
                 {
                      break;
                 }
-                emit(word_buffer, 1, id);
-                memset(word_buffer, 0, sizeof(word_buffer));
+                char *key;
+            key=malloc(strlen(word_buffer)+1);
+
+            bzero(key, strlen(key));
+            memcpy(key, word_buffer, j);
+            emit(key, 1, id);
+
+            memset(word_buffer, 0, sizeof(word_buffer));
                 j=0;
             }
         }
@@ -116,42 +127,44 @@ void emit(char* key, int value, int id){
 struct list_node *insNode; 
 struct list_node *cur =temp[id];
 struct list_node *ins =(struct list_node*) malloc(sizeof(struct list_node)); 
-
 ins->value = value;
 ins->key = key;
 ins->next =NULL;
-
 if (temp[id]->key=='\0')
     temp[id]=ins;
 else
 {
 
-    if ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) < 0 )
+    if ( strcmp(ins -> key,temp[id]-> key) < 0 )
             {
                 ins -> next = temp[id];
                 temp[id] = ins;
+                printf("%s\n",ins->key);
+            
             }
             
-            else if ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) >= 0 )
+    else if ( strcmp(ins -> key,temp[id]-> key) >= 0 )
             {
                  
                 
-                while ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) >= 0 && ( cur -> next != '\0' ) )
+                while ( strcmp(ins -> key,temp[id]-> key) >= 0 && ( cur -> next != '\0' ) )
                 {
                     insNode = cur;
                     cur = cur -> next;
                     
                 }
                 
-                if ( strncmp(ins -> key,temp[id]-> key,WORDSIZE) >= 0 && ( cur -> next == '\0' ) )
+                if ( strcmp(ins -> key,temp[id]-> key) >= 0 && ( cur -> next == '\0' ) )
                     {
                         cur -> next = ins;
+                        printf("%s\n",ins->key);
                     }
                 else
-                {
-                    insNode -> next = ins;
-                    ins -> next = cur;
-                }
+                    {
+                        insNode -> next = ins;
+                        printf("%s\n",ins->key);
+                        ins -> next = cur;
+                    }
             }
 
 }
