@@ -1,5 +1,6 @@
 CC = gcc
 all:	mapred
+	rm -f *~ *.o
 mapred:	main.o	mapreducer.o shuffle.o mapper.o
 	$(CC) -o mapred	main.o	mapreducer.o shuffle.o mapper.o -lpthread
 main.o:	main.c
