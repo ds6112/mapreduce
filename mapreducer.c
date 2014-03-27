@@ -25,7 +25,7 @@ void mapreduce(FILE *fp, struct options arg_opt)
 
     while(!feof(fp))
     {
-        pthread_create(&tid[i],NULL,&mapper_w,(void *) (intptr_t) i);
+        pthread_create(&tid[i],NULL,&mapper_i,(void *) (intptr_t) i);
         pthread_join(tid[i],NULL);
 	    
         i++;
@@ -43,10 +43,10 @@ void mapreduce(FILE *fp, struct options arg_opt)
     struct list_node* tmp =root[i];
     while (tmp->next !=NULL)
     {
-        printf("value: %s\n",tmp->key);
+        printf("value: %i\n",tmp->value);
         tmp =tmp->next;
     }
-    printf("value: %s\n",tmp->key);
+    printf("value: %i\n\n",tmp->value);
     }
 /*
 while (root_int!='\0')
