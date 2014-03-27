@@ -135,7 +135,7 @@ if (temp[id]->key=='\0')
 else
 {
 
-    if ( strcmp(ins -> key,temp[id]-> key) < 0 )
+    if ( strcmp(key,temp[id]-> key) < 0 )
             {
                 ins -> next = temp[id];
                 temp[id] = ins;
@@ -143,18 +143,18 @@ else
             
             }
             
-    else if ( strcmp(ins -> key,temp[id]-> key) >= 0 )
+    else if ( strcmp(key,temp[id]-> key) >= 0 )
             {
                  
                 
-                while ( strcmp(ins -> key,temp[id]-> key) >= 0 && ( cur -> next != '\0' ) )
+                while ( strcmp(key,cur-> key) >= 0 && ( cur -> next != '\0' ) )
                 {
                     insNode = cur;
                     cur = cur -> next;
                     
                 }
                 
-                if ( strcmp(ins -> key,temp[id]-> key) >= 0 && ( cur -> next == '\0' ) )
+                if ( strcmp(key,cur-> key) >= 0 && ( cur -> next == '\0' ) )
                     {
                         cur -> next = ins;
                         printf("%s\n",ins->key);
