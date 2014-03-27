@@ -8,9 +8,7 @@ void* mapper_w(void *tn)
     
     int id =(intptr_t) tn;
     if(!fgets(line_buffer,sizeof(line_buffer),fp))
-    {
-            return;
-    }
+        return;
     while(i<LINESIZE)
     {
         c=line_buffer[i];
@@ -65,7 +63,6 @@ void* mapper_w(void *tn)
         }
     }
 
-
 }
 void* mapper_i(void *tn)
 { 
@@ -76,9 +73,7 @@ void* mapper_i(void *tn)
     int id =(intptr_t) tn;
     char* key = "1\0";
     if(!fgets(line_buffer,sizeof(line_buffer),fp))
-    {
-            return;
-    }
+        return;
     while(i<LINESIZE)
     {   
         c=line_buffer[i];
@@ -115,8 +110,7 @@ void* mapper_i(void *tn)
             }
         }
     }
-   
-
+    
 }
 
 void emit(char* key, int value, int id){
