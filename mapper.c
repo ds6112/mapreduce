@@ -7,9 +7,10 @@ void* mapper_w(void *tn)
     char word_buffer[WORDSIZE];
     
     int id =(intptr_t) tn;
-    while(fgets(line_buffer,sizeof(line_buffer),fp))
-    {   i=0;
-        j=0;
+    if(!fgets(line_buffer,sizeof(line_buffer),fp))
+    {
+            return;
+    }
     while(i<LINESIZE)
     {
         c=line_buffer[i];
@@ -64,11 +65,7 @@ void* mapper_w(void *tn)
         }
     }
 
-}
-if(!fgets(line_buffer,sizeof(line_buffer),fp))
-    {
-            return;
-    }
+
 }
 void* mapper_i(void *tn)
 { 
@@ -78,9 +75,10 @@ void* mapper_i(void *tn)
     char word_buffer[WORDSIZE];
     int id =(intptr_t) tn;
     char* key = "1\0";
-    while(fgets(line_buffer,sizeof(line_buffer),fp))
-    {   i=0;
-        j=0;
+    if(!fgets(line_buffer,sizeof(line_buffer),fp))
+    {
+            return;
+    }
     while(i<LINESIZE)
     {   
         c=line_buffer[i];
@@ -117,9 +115,7 @@ void* mapper_i(void *tn)
             }
         }
     }
-    }
-    if(fgets(line_buffer,sizeof(line_buffer),fp))
-        return;
+   
 
 }
 

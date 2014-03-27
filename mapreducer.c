@@ -23,17 +23,12 @@ void mapreduce(FILE *fp, struct options arg_opt)
     
     temp=root;
 
-    while(!feof(fp))
-    {
+    for (i=0;i<n;i++)
         pthread_create(&tid[i],NULL,&mapper_w,(void *) (intptr_t) i);
+for (i=0;i<n;i++)
         pthread_join(tid[i],NULL);
 	    
-        i++;
-        if(i==(n))
-        {
-            i=0;
-        }
-    }
+    
     
    /* for (i=0;i<n;i++){
     pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
@@ -46,7 +41,7 @@ void mapreduce(FILE *fp, struct options arg_opt)
         printf("value: %s\n",tmp->key);
         tmp =tmp->next;
     }
-    printf("value: %s\n",tmp->key);
+    printf("value: %s\n\n",tmp->key);
     }
 /*
 while (root_int!='\0')
