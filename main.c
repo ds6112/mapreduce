@@ -37,7 +37,7 @@ void mapreducer(FILE *filepointer, struct options *mapredopt){
 
 
 int main(int argc, const char * argv[]){
-    
+   
     int i,n=14;
     /* flag array for ints */
     flag_array=malloc(n*sizeof(int));

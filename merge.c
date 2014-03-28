@@ -1,15 +1,15 @@
 #include "merge.h"
-#include "mapper.h"
+#include "helper.h"
 void* merge(void *node)
 {
 	int i=(intptr_t) node;	
 	struct list_node* node_l;
 	struct list_node* node_r;
 	struct list_node* current;
-	if(i==(j-1-i))
+	if(i==(j-(i+1)))
 	{
 		node_l=temp[i-1];
-		node_r=temp[(j-1-i)];
+		node_r=temp[(i)];
 	}
 	else
 	{
@@ -23,7 +23,7 @@ void* merge(void *node)
 		current->key="1\0";
 		current->value=node_r->value;
 
-		if(current->value < temp[i]->value)
+		if(temp[i]->value > current->value)
 		{
 			current->next=temp[i];
 			temp[i]=current;

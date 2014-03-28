@@ -1,6 +1,7 @@
 #include "mapreducer.h"
 #include "mapper.h"
 #include "merge.h"
+#include "helper.h"
 int n;
 int j;
 void mapreduce(FILE *fp, struct options arg_opt)
@@ -56,33 +57,6 @@ void mapreduce(FILE *fp, struct options arg_opt)
         }
     }
     
-   /* for (i=0;i<n;i++){
-    pthread_create(&tidint[i],NULL,&shuffle_i,(void *) (intptr_t) i);
-        pthread_join(tidint[i],NULL);}*/
-    for(i=0;i<n;i++)
-    {
-    struct list_node* tmp =root[i];
-    while (tmp->next !=NULL)
-    {
-        if(arg_opt.type)
-        {
-            printf("value: %i\n",tmp->value);
-        }
-        else
-        {
-            printf("value: %s\n",tmp->key); 
-        }
-        tmp =tmp->next;
-    }
-        if(arg_opt.type)
-        {
-            printf("value: %i\n\n",tmp->value);
-        }
-        else
-        {
-            printf("value: %s\n\n",tmp->key); 
-        }
-    }
 /*
 while (root_int!='\0')
 {
@@ -91,74 +65,31 @@ while (root_int!='\0')
         root_int=root_int->next;
 }*/
     j=n;
+    pthread_t td;
     while(j>1)
     {
     for(i=0;i<(j+1)/2;i++)
     {
-    pthread_create(&tid[i],NULL,&merge,(void *) i);
+    root_print(arg_opt.type);
+    printf("%i,%i\n",i,j);
+    pthread_create(&tid[i],NULL,&merge,(void *) (intptr_t) i);
     pthread_join(tid[i],NULL);   
     }
-      for(i=0;i<n;i++)
-    {
-    struct list_node* tmp =root[i];
-    while (tmp->next !=NULL)
-    {
-        if(arg_opt.type)
-        {
-            printf("value: %i\n",tmp->value);
-        }
-        else
-        {
-            printf("value: %s\n",tmp->key); 
-        }
-        tmp =tmp->next;
+    j=(j)/2;
     }
-        if(arg_opt.type)
-        {
-            printf("value: %i\n\n",tmp->value);
-        }
-        else
-        {
-            printf("value: %s\n\n",tmp->key); 
-        }
-    }
-    j=(j/2);
-    }
-    
+
     //struct list_node* tmp =root[0];
     /*while (tmp->next !=NULL)
     {
         printf("%i\n",tmp->value);
         tmp=tmp->next;
     }*/
-    
+    root_delete(arg_opt.type);
 
     
 
     // end merge
     
-    for(i=0;i<n;i++)
-    {
-    struct list_node* tmp =root[i];
-    struct list_node* old;
 
-    while(tmp->next!=NULL)
-    {
-        old = tmp;
-        tmp=tmp->next;
-        if(!arg_opt.type)
-        {
-        free(old->key);
-        }
-        free(old);
-    }
-
-    if(!arg_opt.type)
-    {
-    free(tmp->key);
-    }
-
-    free(tmp);
-    }
     
 }
