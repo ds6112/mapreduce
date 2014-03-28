@@ -38,7 +38,7 @@ void mapreducer(FILE *filepointer, struct options *mapredopt){
 
 int main(int argc, const char * argv[]){
     
-    int i,n=10;
+    int i,n=2;
     /* flag array for ints */
     flag_array=malloc(n*sizeof(int));
     for(i=0;i<n;i++)
@@ -48,9 +48,9 @@ int main(int argc, const char * argv[]){
 
     struct options arg_opt;
     arg_opt.map_t=n;
-    arg_opt.type=0;
+    arg_opt.type=1;
     /* type 0 is wc, 1 is integer*/
-    fp=fopen("example_wc.txt","r");
+    fp=fopen("example_i.txt","r");
     
     mapreduce(fp,arg_opt);
     free(flag_array);

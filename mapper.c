@@ -30,8 +30,7 @@ void* mapper_w(void *tn)
                 break;
             }
             char *key;
-            key=malloc(strlen(word_buffer)+1);
-            bzero(key, strlen(key));
+            key=calloc(1,strlen(word_buffer)+1);
             memcpy(key, word_buffer, j);
 
             emit(key, 1, id);
@@ -60,9 +59,7 @@ void* mapper_w(void *tn)
                      break;
                 }
                 char *key;
-            key=malloc(strlen(word_buffer)+1);
-
-            bzero(key, strlen(key));
+            key=calloc(1,strlen(word_buffer)+1);
             memcpy(key, word_buffer, j);
             emit(key, 1, id);
             bzero(word_buffer,sizeof(word_buffer));
@@ -127,6 +124,7 @@ void emit(char* key, int value, int id){
 struct list_node *insNode; 
 struct list_node *cur =temp[id];
 struct list_node *ins =(struct list_node*) malloc(sizeof(struct list_node)); 
+node_count[id]++;
 ins->value = value;
 ins->key = key;
 ins->next =NULL;
@@ -138,6 +136,7 @@ if(temp[id]->next == NULL && flag_array[id]==0)
     temp[id]->value=value;
     flag_array[id]=1;
     free(ins);
+
 }
 else
 {
