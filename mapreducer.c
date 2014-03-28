@@ -98,16 +98,7 @@ while (root_int!='\0')
     pthread_create(&tid[i],NULL,&merge,(void *) i);
     pthread_join(tid[i],NULL);   
     }
-    j=j/2;
-    }
-    struct list_node* tmp =root[0];
-    while (tmp->next !=NULL)
-    {
-        printf("%i\n",tmp->value);
-        tmp=tmp->next;
-    }
-    /*
-  for(i=0;i<n;i++)
+      for(i=0;i<n;i++)
     {
     struct list_node* tmp =root[i];
     while (tmp->next !=NULL)
@@ -131,7 +122,18 @@ while (root_int!='\0')
             printf("value: %s\n\n",tmp->key); 
         }
     }
-    */
+    j=(j/2);
+    }
+    
+    //struct list_node* tmp =root[0];
+    /*while (tmp->next !=NULL)
+    {
+        printf("%i\n",tmp->value);
+        tmp=tmp->next;
+    }*/
+    
+
+    
 
     // end merge
     
