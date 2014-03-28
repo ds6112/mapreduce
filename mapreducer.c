@@ -1,6 +1,5 @@
 #include "mapreducer.h"
 #include "mapper.h"
-#include "shuffle.h"
 #include "merge.h"
 int n;
 int j;
@@ -160,5 +159,4 @@ while (root_int!='\0')
     free(tmp);
     }
     
-sem_destroy(&mutex);
 }
