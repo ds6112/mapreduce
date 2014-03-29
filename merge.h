@@ -9,5 +9,5 @@
 int n;
 int j;
 struct list_node** temp;
-void* merge(void *node);
+void* merge_i(void *node);
 #endif

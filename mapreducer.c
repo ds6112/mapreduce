@@ -71,7 +71,7 @@ while (root_int!='\0')
     for(i=0;i<(j+1)/2;i++)
     {
 
-    pthread_create(&tid[i],NULL,&merge,(void *) (intptr_t) i);
+    pthread_create(&tid[i],NULL,&merge_i,(void *) (intptr_t) i);
 
     }
     for(i=0;i<(j+1)/2;i++)

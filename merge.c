@@ -1,6 +1,6 @@
 #include "merge.h"
 #include "helper.h"
-void* merge(void *node)
+void* merge_i(void *node)
 {
 	int i=(intptr_t) node;	
 	struct list_node* node_l;
