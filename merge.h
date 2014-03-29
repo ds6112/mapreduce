@@ -10,4 +10,5 @@ int n;
 int j;
 struct list_node** temp;
 void* merge_i(void *node);
+void* merge_w(void *node);
 #endif

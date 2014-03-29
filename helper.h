@@ -14,4 +14,8 @@ struct sort_node {
 	struct sort_node *next;
 };
 void root_delete(int type);
+void root_print(int type);
+void merge(int type);
+void filter_list();
+void combine_w();
 #endif

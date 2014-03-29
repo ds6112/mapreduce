@@ -7,38 +7,9 @@
 #include <string.h>
 #include "mapreducer.h"
 FILE *fp;
-
-/*
-void mapreducer();
-void mapper();
-void shuffle();
-void reducer();
- */
-/*
-void mapreducer(FILE *filepointer, struct options *mapredopt){
-    /*
-     parent controller which creates threads and coordinates stages of the pipeline
-     
-    int token;
-    int numberofmaps =mapredopt->mapthreads;
-    int numberoflines = 0;
-    
-    while ( (token=fgetc(filepointer)) != EOF ) {
-        if ( token == '\n' )
-            numberoflines++;
-    }
-    int sizeofmap = numberoflines/numberofmaps;
-    int lastmapsize = numberoflines-sizeofmap*(numberofmaps-1);
-    
-    printf("%i lines\n", lastmapsize);
-    printf("%i lines\n", mapredopt->mapthreads);
-}
-*/
-
-
 int main(int argc, const char * argv[]){
    
-    int i,n=15;
+    int i,n=211;
     /* flag array for ints */
     flag_array=malloc(n*sizeof(int));
     for(i=0;i<n;i++)
@@ -48,9 +19,9 @@ int main(int argc, const char * argv[]){
 
     struct options arg_opt;
     arg_opt.map_t=n;
-    arg_opt.type=1;
+    arg_opt.type=0;
     /* type 0 is wc, 1 is integer*/
-    fp=fopen("example_i.txt","r");
+    fp=fopen("example_wc.txt","r");
     
     mapreduce(fp,arg_opt);
     free(flag_array);

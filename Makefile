@@ -11,7 +11,7 @@ mapper.o:  mapper.c mapper.h
 	$(CC) -c mapper.c -lpthread
 merge.o:  merge.c merge.h
 	$(CC) -c merge.c -lpthread	
-helper.o: helper.c helper.h 
-	$(CC) -c helper.c
+helper.o: helper.c helper.h
+	$(CC) -c helper.c -lpthread
 clean:
 	rm -f *~ *.o mapred
