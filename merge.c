@@ -10,6 +10,7 @@ void* merge(void *node)
 	{
 		node_l=temp[i-1];
 		node_r=temp[(i)];
+		i=i-1;
 	}
 	else
 	{
@@ -29,7 +30,11 @@ void* merge(void *node)
 			temp[i]=current;
 			node_l=temp[i];
 		}
-
+		else if (current->value >= node_l->value && current->value < node_l->next->value)
+		{
+			current->next=node_l->next;
+			node_l->next=current;
+		}
 		else if(current->value >= node_l->value)
 		{
 

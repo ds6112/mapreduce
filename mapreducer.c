@@ -70,14 +70,20 @@ while (root_int!='\0')
     {
     for(i=0;i<(j+1)/2;i++)
     {
-    root_print(arg_opt.type);
-    printf("%i,%i\n",i,j);
+
     pthread_create(&tid[i],NULL,&merge,(void *) (intptr_t) i);
-    pthread_join(tid[i],NULL);   
+
     }
+    for(i=0;i<(j+1)/2;i++)
+    {
+
+    pthread_join(tid[i],NULL);  
+
+    }
+ 
     j=(j)/2;
     }
-
+    root_print(arg_opt.type);
     //struct list_node* tmp =root[0];
     /*while (tmp->next !=NULL)
     {
