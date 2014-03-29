@@ -2,14 +2,22 @@
 #include "mapper.h"
 #include "merge.h"
 #include "helper.h"
-int j,n;
+#include "reduce.h"
+#include <semaphore.h>
+int j,n,m;
 void mapreduce(FILE *fp, struct options arg_opt)
 {
     /* Initializations */
+sem_t reduceworkers;
+	outputFile =fopen(arg_opt.printFile, "w");
     int i;
     n=arg_opt.map_t;
+m= arg_opt.reduce_t;
+sem_init(&reduceworkers, 0, m);
+sem_init(&writeToFile, 0, 1);
     node_count=malloc(sizeof(int)*n);
     pthread_t tid[n];
+	
     struct list_node* root[n];
     temp=root;
     /* Mapper function pointer array*/
@@ -54,6 +62,18 @@ void mapreduce(FILE *fp, struct options arg_opt)
      *
      */
 
+	if (arg_opt.type)
+	{reduce_i(root[0]);
+	}
+else
+{
+struct list_node* current=temp[0];
+while (current->next !='\0'){
+reduce_w(current->key,current->value);
+current = current->next;
+}
+reduce_w(current->key,current->value);
+}
 
     /* Free Memory */
     root_delete(arg_opt.type);

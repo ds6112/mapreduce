@@ -11,6 +11,8 @@ struct options{
     int type;
     int map_t;
     int reduce_t;
+int apptype;
+    char *printFile;
 };
 sem_t mutex;
 void mapreduce(FILE *fp, struct options arg_opt);
