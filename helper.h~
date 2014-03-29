@@ -4,9 +4,9 @@
 int n;
 struct list_node** temp;
 struct list_node{
-    char* key;
-    int value;
-    struct list_node *next;
+  char* key;
+  int value;
+  struct list_node *next;
 };
 struct sort_node {
 	int hash;

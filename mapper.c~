@@ -1,7 +1,7 @@
 #include "mapper.h"
 #include "helper.h"
 void* mapper_w(void *tn)
-{
+{ 
     int i=0,j=0;
     char c;
     char line_buffer[LINESIZE];
@@ -15,7 +15,7 @@ void* mapper_w(void *tn)
     {
         bzero(line_buffer,sizeof(line_buffer));
         if(!fgets(line_buffer,sizeof(line_buffer),fp))
-            return;
+        return;
     }
     while(i<LINESIZE)
     {
@@ -29,7 +29,7 @@ void* mapper_w(void *tn)
             char *key;
             key=calloc(1,strlen(word_buffer)+1);
             memcpy(key, word_buffer, j);
-            
+
             emit(key, 1, id);
             bzero(word_buffer,sizeof(word_buffer));
             break;
@@ -53,19 +53,19 @@ void* mapper_w(void *tn)
             {
                 if(strlen(word_buffer)==0)
                     break;
-                char *key;
-                key=calloc(1,strlen(word_buffer)+1);
-                memcpy(key, word_buffer, j);
-                emit(key, 1, id);
-                bzero(word_buffer,sizeof(word_buffer));
-                j=0;
+            char *key;
+            key=calloc(1,strlen(word_buffer)+1);
+            memcpy(key, word_buffer, j);
+            emit(key, 1, id);
+            bzero(word_buffer,sizeof(word_buffer));
+            j=0;
             }
         }
     }
-    
+
 }
 void* mapper_i(void *tn)
-{
+{ 
     int i=0,j=0;
     char c;
     char line_buffer[LINESIZE];
@@ -76,7 +76,7 @@ void* mapper_i(void *tn)
     if(!fgets(line_buffer,sizeof(line_buffer),fp))
         return;
     while(i<LINESIZE)
-    {
+    {   
         c=line_buffer[i];
         i++;
         /* End of line, store final word*/
@@ -113,14 +113,14 @@ void* mapper_i(void *tn)
 void emit(char* key, int value, int id)
 {
     /*Initializations*/
-    struct list_node *insNode;
+    struct list_node *insNode; 
     struct list_node *cur =temp[id];
-    struct list_node *ins =(struct list_node*) malloc(sizeof(struct list_node));
+    struct list_node *ins =(struct list_node*) malloc(sizeof(struct list_node)); 
     node_count[id]++;
     ins->value = value;
     ins->key = key;
     ins->next =NULL;
-    
+
     if(key=="1\0")
     {
         /* Case of integer sort*/
@@ -131,7 +131,7 @@ void emit(char* key, int value, int id)
             temp[id]->value=value;
             flag_array[id]=1;
             free(ins);
-            
+
         }
         else
         {
@@ -140,18 +140,18 @@ void emit(char* key, int value, int id)
             {
                 ins -> next = temp[id];
                 temp[id] = ins;
-                
+
             }
             else if ( value >= temp[id]->value )
             {
-                
+
                 while ( value >= cur->value && ( cur -> next != NULL ) )
                 {
                     insNode = cur;
                     cur = cur -> next;
-                    
+
                 }
-                
+
                 if ( value >= cur->value && ( cur -> next == NULL ) )
                 {
                     cur -> next = ins;
@@ -161,14 +161,14 @@ void emit(char* key, int value, int id)
                     insNode -> next = ins;
                     ins -> next = cur;
                 }
-                
+
             }
         }
     }
     else
     {
         /*Case of Word Count*/
-        
+
         /*Root node*/
         if (temp[id]->key==NULL  )
         {
@@ -178,18 +178,18 @@ void emit(char* key, int value, int id)
         }
         else
         {
-            
+
             /* Perform insertion at appropriate location*/
             if ( strcmp(key,temp[id]-> key) < 0 )
             {
                 ins -> next = temp[id];
                 temp[id] = ins;
-                
-            }
             
+            }
+                    
             else if ( strcmp(key,temp[id]-> key) >= 0 )
             {
-                
+                 
                 
                 while ( strcmp(key,cur-> key) >= 0 && ( cur -> next != '\0' ) )
                 {
@@ -199,16 +199,16 @@ void emit(char* key, int value, int id)
                 }
                 
                 if ( strcmp(key,cur-> key) >= 0 && ( cur -> next == '\0' ) )
-                {
-                    cur -> next = ins;
-                }
+                    {
+                        cur -> next = ins;
+                    }
                 else
-                {
-                    insNode -> next = ins;
-                    ins -> next = cur;
-                }
+                    {
+                        insNode -> next = ins;
+                        ins -> next = cur;
+                    }
             }
-            
+
         }
     }
 }

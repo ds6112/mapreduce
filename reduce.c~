@@ -2,13 +2,13 @@
 #include "helper.h"
 
 void* reduce_w(char* key, int value){
-    emitFinal(key,value);
+emitFinal(key,value);
 }
 
 void* reduce_i(struct list_node *integers){
-    while (integers->next!=NULL)
-        emitFinal(" \0",integers->value);
-    emitFinal(" \0",integers->value);
+while (integers->next!=NULL)
+	emitFinal(" \0",integers->value);
+emitFinal(" \0",integers->value);
 }
 
 void emitFinal(char* key, int value){

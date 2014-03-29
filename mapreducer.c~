@@ -8,13 +8,13 @@ int j,n,m;
 void mapreduce(FILE *fp, struct options arg_opt)
 {
     /* Initializations */
-    sem_t reduceworkers;
+sem_t reduceworkers;
 	outputFile =fopen(arg_opt.printFile, "w");
     int i;
     n=arg_opt.map_t;
-    m= arg_opt.reduce_t;
-    sem_init(&reduceworkers, 0, m);
-    sem_init(&writeToFile, 0, 1);
+m= arg_opt.reduce_t;
+sem_init(&reduceworkers, 0, m);
+sem_init(&writeToFile, 0, 1);
     node_count=malloc(sizeof(int)*n);
     pthread_t tid[n];
 	
@@ -39,10 +39,10 @@ void mapreduce(FILE *fp, struct options arg_opt)
         for(i=0;i<n;i++)
         {
             pthread_join(tid[i],NULL);
-            
+        
             if(feof(fp))
                 break;
-            
+
         }
     }
     
@@ -55,29 +55,28 @@ void mapreduce(FILE *fp, struct options arg_opt)
     {
         combine_w();
     }
-    
+
     /* Print function to view structure
      *
      * root_print(arg_opt.type);
      *
      */
-    
+
 	if (arg_opt.type)
-	{
-        reduce_i(root[0]);
+	{reduce_i(root[0]);
 	}
-    else
-    {
-        struct list_node* current=temp[0];
-        while (current->next !='\0'){
-            reduce_w(current->key,current->value);
-            current = current->next;
-        }
-        reduce_w(current->key,current->value);
-    }
-    
+else
+{
+struct list_node* current=temp[0];
+while (current->next !='\0'){
+reduce_w(current->key,current->value);
+current = current->next;
+}
+reduce_w(current->key,current->value);
+}
+
     /* Free Memory */
     root_delete(arg_opt.type);
-    
+
     
 }
